@@ -18,8 +18,9 @@
         <div class="marker"></div>
         <canvas id="wheelCanvas" width="300" height="300"></canvas>
     </div>
-    <button onclick="spinWheel()">Крутить</button>
+    <button id="spinButton" onclick="spinWheel()">Крутить</button>
     <p id="result"></p>
+    <p id="message"></p>
 
     <script>
         const canvas = document.getElementById("wheelCanvas");
@@ -27,6 +28,7 @@
         const segments = ["HERO", "TITAN", "AVENGER", "OVERLORD", "MAGISTER", "IMPERATOR", "DRAGON", "COBRA"];
         const colors = ["#FF5733", "#FFBD33", "#DBFF33", "#75FF33", "#33FF57", "#33FFBD", "#3375FF", "#8E44AD"];
         let currentRotation = 0;
+        let hasSpun = false;  // Флаг, который отслеживает, был ли уже запуск колеса
         const segmentAngle = (2 * Math.PI) / segments.length;
         const targetIndex = segments.indexOf("COBRA");
         const targetAngle = targetIndex * segmentAngle - (segmentAngle / 2);
@@ -52,6 +54,13 @@
         }
 
         function spinWheel() {
+            if (hasSpun) {
+                // Если уже крутил, показываем сообщение
+                document.getElementById("message").innerText = "Ты уже покрутил колесо, закрой окно и нажми ГОТОВО!";
+                return;
+            }
+            hasSpun = true;  // Отмечаем, что колесо покрутили
+
             const fullRotations = 5;
             const finalRotation = fullRotations * 2 * Math.PI + targetAngle;
             let start = null;
